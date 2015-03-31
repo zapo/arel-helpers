@@ -9,6 +9,14 @@ describe ArelHelpers do
         'SELECT "posts".* FROM "posts" INNER JOIN "comments" ON "comments"."post_id" = "posts"."id"'
     end
 
+    it "should work for polymorphic associations" do
+      Author.joins_type(:registration_fee, Arel::Nodes::InnerJoin).to_sql.should ==
+        "SELECT \"authors\".* FROM \"authors\" INNER JOIN \"fees\" ON \"fees\".\"billable_id\" = \"authors\".\"id\" AND \"fees\".\"billable_type\" = 'Author'"
+
+      Author.outer_joins(:registration_fee).to_sql.should ==
+        "SELECT \"authors\".* FROM \"authors\" LEFT OUTER JOIN \"fees\" ON \"fees\".\"billable_id\" = \"authors\".\"id\" AND \"fees\".\"billable_type\" = 'Author'"
+    end
+
     it "should work with an outer join" do
       Post.joins(ArelHelpers.join_association(Post, :comments, Arel::Nodes::OuterJoin)).to_sql.should ==
         'SELECT "posts".* FROM "posts" LEFT OUTER JOIN "comments" ON "comments"."post_id" = "posts"."id"'

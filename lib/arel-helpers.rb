@@ -24,4 +24,8 @@ module ArelHelpers
   def self.join_association(*args, &block)
     ArelHelpers::JoinAssociation.join_association(*args, &block)
   end
+
+  def self.join_information(*args, &block)
+    ArelHelpers::JoinAssociation.join_information(*args, &block)
+  end
 end

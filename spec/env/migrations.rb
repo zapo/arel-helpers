@@ -40,3 +40,12 @@ class CreateCollabPostsTable < ActiveRecord::Migration
     end
   end
 end
+
+class CreateFeesTable < ActiveRecord::Migration
+  def change
+    create_table :fees do |t|
+      t.integer :billable_id, :null => false
+      t.string :billable_type, :null => false
+    end
+  end
+end
